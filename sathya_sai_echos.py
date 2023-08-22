@@ -12,11 +12,11 @@ import replicate
 import os
 
 # App title
-st.set_page_config(page_title="🦙💬 Llama 2 Chatbot")
+st.set_page_config(page_title="Sathya Sai Echos")
 
 # Replicate Credentials
 with st.sidebar:
-    st.title('🦙💬 Llama 2 Chatbot')
+    st.title('Sathya Sai Echos')
     if 'REPLICATE_API_TOKEN' in st.secrets:
         st.success('API key already provided!', icon='✅')
         replicate_api = st.secrets['REPLICATE_API_TOKEN']
@@ -26,7 +26,7 @@ with st.sidebar:
             st.warning('Please enter your credentials!', icon='⚠️')
         else:
             st.success('Proceed to entering your prompt message!', icon='👉')
-   
+    st.markdown('📖 Learn how to build this app in this [blog](#link-to-blog)!')
 os.environ['REPLICATE_API_TOKEN'] = replicate_api
 
 # Store LLM generated responses
@@ -43,7 +43,7 @@ def clear_chat_history():
 st.sidebar.button('Clear Chat History', on_click=clear_chat_history)
 
 # Function for generating LLaMA2 response
-# Refactored from <https://github.com/a16z-infra/llama2-chatbot>
+
 def generate_llama2_response(prompt_input):
     string_dialogue = "You are a helpful assistant. You do not respond as 'User' or pretend to be 'User'. You only respond once as 'Assistant'."
     for dict_message in st.session_state.messages:
@@ -51,7 +51,7 @@ def generate_llama2_response(prompt_input):
             string_dialogue += "User: " + dict_message["content"] + "\\n\\n"
         else:
             string_dialogue += "Assistant: " + dict_message["content"] + "\\n\\n"
-    output = replicate.run('a16z-infra/llama13b-v2-chat:df7690f1994d94e96ad9d568eac121aecf50684a0b0963b25a41cc40061269e5', 
+    output = replicate.run('replicate/llama-2-70b-chat:58d078176e02c219e11eb4da5a02a7830a283b14cf8f94537af893ccff5ee781', 
                            input={"prompt": f"{string_dialogue} {prompt_input} Assistant: ",
                                   "temperature":0.1, "top_p":0.9, "max_length":512, "repetition_penalty":1})
     return output
