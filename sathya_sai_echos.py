@@ -7,8 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/1U7jQGmMRv0n2OK8Giy3lNJ9VSrsFrTp3
 """
 
-!pip install -q streamlit replicate
-
 import streamlit as st
 import replicate
 import os
